@@ -1,1 +1,1 @@
-# odoo_technical_exercises
+# Basic Odoo Technical Exercises
