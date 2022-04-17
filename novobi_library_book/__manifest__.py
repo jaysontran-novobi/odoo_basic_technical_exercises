@@ -10,11 +10,12 @@
     "author": "Novobi, LLC",
     "license": "OPL-1",
     "depends": [
-        "base",
+        "base", "mail"
     ],
     "excludes": [],
     "data": [
         # ============================== DATA =================================
+        'data/mail_template_data.xml',
 
         # ============================== VIEWS ================================
         'views/library_book_views.xml',
