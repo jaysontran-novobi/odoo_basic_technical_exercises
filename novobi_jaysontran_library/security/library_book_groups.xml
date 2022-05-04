@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright © 2022 Novobi, LLC. See LICENSE file for full copyright and licensing details. -->
+
+<odoo>
+    <record id="group_librarian_assistance" model="res.groups">
+        <field name="name">Librarian Assistances</field>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+     <record id="library_assistance_edit_rule" model="ir.rule">
+            <field name="name">Library Assistants can only edit books created by themselves</field>
+            <field name="model_id" ref="model_library_book"/>
+            <field name="groups" eval="[(4, ref('novobi_jaysontran_library.group_librarian_assistance'))]"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[]</field>
+     </record>
+
+    <record id="librarian_edit_rule" model="ir.rule">
+        <field name="name">Librarians</field>
+        <field name="model_id" ref="model_library_book"/>
+        <field name="groups" eval="[(4, ref('novobi_library_book.group_librarian'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="domain_force">[]</field>
+    </record>
+
+
+
+
+</odoo>

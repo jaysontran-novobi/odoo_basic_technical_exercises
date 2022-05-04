@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_borrower">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2 class="mt16">
+                    <span t-field="doc.name"/>
+                </h2>
+                <div class="row mt32 mb32" id="information">
+                    <div name="info_email" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Email:</strong>
+                        <p class="m-0" t-field="doc.email"/>
+                    </div>
+                    <div name="info_current_date" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Printed Date:</strong>
+                        <p class="m-0" t-esc="context_timestamp(datetime.datetime.now()).strftime('%m/%d/%Y')"/>
+                    </div>
+                </div>
+                <div class="row mt32 mb32" id="book_information">
+                    <div name="info_book" class="col-auto col-3 mw-100 mb-2">
+                        <table border="1" style="width:100%;">
+                            <strong>Book:</strong>
+                            <t t-foreach="doc.borrowed_book_ids" t-as="book">
+                            <tr>
+                                <td><p class="m-0" t-field="book.name"/></td>
+                                <td><p class="m-0" t-field="book.author_ids"/></td>
+                                <td><p class="m-0" t-field="book.date_return"/></td>
+                            </tr>
+                            </t>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mt32 mb32" id="total_book_information">
+                    <div name="info_total_book" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Total book:</strong>
+                        <p class="m-0" t-field="doc.total_borrowed_books"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="report_print_borrower">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="novobi_jaysontran_library.report_borrower" />
+            </t>
+        </t>
+    </template>
+</odoo>

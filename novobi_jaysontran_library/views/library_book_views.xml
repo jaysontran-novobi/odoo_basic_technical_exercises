@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright © 2022 Novobi, LLC. See LICENSE file for full copyright and licensing details. -->
+
+<odoo>
+
+    <!--############################## VIEWS ##############################-->
+    <record id="library_book_view_form_inherited" model="ir.ui.view">
+        <field name="name">library.book.view.inherited</field>
+        <field name="model">library.book</field>
+        <field name="inherit_id" ref="novobi_library_book.library_book_view_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="/form/header" position="inside">
+                <button name="open_url_action" string="Book's URL" type="object" class="oe_highlight"></button>
+                <button name="button_lease_action" string="Lease" type="object" class="btn-primary"></button>
+            </xpath>
+            <xpath expr="//field[@name='date_release']" position="after">
+                <field name="isbn"></field>
+                <field name="status"></field>
+                <field name="current_borrower_id"></field>
+                <field name="book_url"></field>
+                <field name="date_return"></field>
+<!--            Action available-->
+                <button name="mark_available" type="object"
+                        string="Mark as Available" class="btn-info"
+                        attrs="{'invisible': [('status', '=', 'available')]}"></button>
+
+            <!--            Action lost-->
+
+                <button name="mark_lost" type="object"
+                        string="Mark as Lost" class="btn-info"
+                        attrs="{'invisible': [('status', '=', 'lost')]}">
+                </button>
+            </xpath>
+
+            <xpath expr="/form/sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="library_book_view_tree_inherited" model="ir.ui.view">
+        <field name="name">library_book_view_tree_inherited</field>
+        <field name="model">library.book</field>
+        <field name="inherit_id" ref="novobi_library_book.library_book_view_tree"></field>
+        <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="isbn"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="short_name"/>
+                    <field name="status"/>
+                </xpath>
+        </field>
+    </record>
+
+    <record id="library_book_view_kanban" model="ir.ui.view">
+        <field name="name">Library Book Kanban</field>
+        <field name="model">library.book</field>
+        <field name="inherit_id" ref="novobi_library_book.library_book_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='short_name']" position="before">
+                <field name="isbn" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="library_book_view_search_inherited" model="ir.ui.view">
+        <field name="name">library_book_view_search_inherited</field>
+        <field name="model">library.book</field>
+        <field name="inherit_id" ref="novobi_library_book.library_book_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="isbn" invisible="1"/>
+            </xpath>
+            <xpath expr="//filter[@name='without_author']" position="after">
+                <filter string="Without Release Date" name="without_release_date"/>
+                <filter string="Borrower" name="borrower_group" context="{'group_by': 'current_borrower_id'}"></filter>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="library_book_borrower_view_tree" model="ir.ui.view">
+        <field name="name">library_book_borrower_tree</field>
+        <field name="model">library.book.borrower</field>
+        <field name="arch" type="xml">
+        <tree editable="bottom">
+            <field name="name" required="1"></field>
+            <field name="email" required="1"></field>
+            <field name="total_borrowed_books"></field>
+            <button name="print_report" string="Print report" type="object"/>
+        </tree>
+        </field>
+    </record>
+
+
+
+    <!--############################## ACTIONS ##############################-->
+<!--    <record id='library_book_action' model='ir.actions.act_window'>-->
+<!--        <field name="name">Library Books</field>-->
+<!--        <field name="res_model">library.book</field>-->
+<!--        <field name="view_mode">tree,kanban,form</field>-->
+<!--    </record>-->
+
+    <record id='library_book_borrower_action' model='ir.actions.act_window'>
+        <field name="name">Library Book Borrowers</field>
+        <field name="res_model">library.book.borrower</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!--############################## MENUS ##############################-->
+<!--    <menuitem name="Novobi Library" id="library_base_menu" web_icon="novobi_library_book,static/description/icon.png" />-->
+<!--    <menuitem name="Books" id="library_book_menu" parent="library_base_menu" action="library_book_action" />-->
+    <menuitem name="Borrowers" id="library_borrower_menu" parent="novobi_library_book.library_base_menu" action="library_book_borrower_action"/>
+</odoo>
